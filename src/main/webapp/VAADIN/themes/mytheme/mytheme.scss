@@ -1,0 +1,39 @@
+@import "../chameleon/chameleon.scss";
+
+@mixin mytheme {
+  @include chameleon;
+
+  .basic-background {
+    background-color: #e6d9bd;
+    background-image: none;
+  }
+
+  .header {
+    background-color: #579b35;
+    -moz-box-shadow: 7px 8px 5px #000000;
+    -webkit-box-shadow: 7px 8px 5px #000000;;
+    box-shadow: 7px 8px 5px #000000;
+
+    -moz-border-radius-topright: 90px;
+    -webkit-border-top-right-radius: 90px;
+    border-top-right-radius: 90px;
+    -moz-border-radius-bottomright: 90px;
+    -webkit-border-bottom-right-radius: 90px;
+    border-bottom-right-radius: 90px;
+  }
+
+  .logger {
+    background-color: #579b35;
+    -moz-box-shadow: 7px 8px 5px #000000;
+    -webkit-box-shadow: 7px 8px 5px #000000;;
+    box-shadow: 7px 8px 5px #000000;
+
+    -moz-border-radius-topleft: 90px;
+    -webkit-border-top-left-radius: 90px;
+    border-top-left-radius: 90px;
+    -moz-border-radius-bottomleft: 90px;
+    -webkit-border-bottom-left-radius: 90px;
+    border-bottom-left-radius: 90px;
+  }
+
+}

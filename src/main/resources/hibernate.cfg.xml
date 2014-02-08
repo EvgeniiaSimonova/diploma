@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+ 
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="com.app.entity.DrugEnt" />
+        <mapping class="com.app.entity.FirmEnt" />
+        <mapping class="com.app.entity.HistoryEnt" />
+        <mapping class="com.app.entity.InternationalNonProprietaryNameEnt" />
+        <mapping class="com.app.entity.MarkerEnt" />
+        <mapping class="com.app.entity.PharmacyEnt" />
+        <mapping class="com.app.entity.PriceEnt" />
+        <mapping class="com.app.entity.PrincipalEnt" />
+        <mapping class="com.app.entity.ProbablyInternationalNonProprietaryNameEnt" />
+        <mapping class="com.app.entity.RatingEnt" />
+        <mapping class="com.app.entity.SaleEnt" />
+    </session-factory>
+</hibernate-configuration>
