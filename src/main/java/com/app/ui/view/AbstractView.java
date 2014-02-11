@@ -3,13 +3,13 @@ package com.app.ui.view;
 import com.app.entity.Role;
 import com.app.service.DashboardService;
 import com.app.ui.DashboardUI;
-import com.app.ui.form.*;
 import com.app.ui.form.LoginForm;
 import com.app.ui.listener.LogoutListener;
 import com.app.utils.Constants;
 import com.app.utils.NavigationViews;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -23,10 +23,18 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
     protected static DashboardService dashboardService;
 
-    protected HorizontalLayout headerLayout = new HorizontalLayout();
-    protected HorizontalLayout mainMenuLayout = new HorizontalLayout();
-    protected HorizontalLayout centerLayout = new HorizontalLayout();
+    protected VerticalLayout headLayout = new VerticalLayout();
+    protected HorizontalLayout bodyLayout = new HorizontalLayout();
+
+    protected Layout centralLayout;
     protected VerticalLayout profileLayout = new VerticalLayout();
+
+    protected HorizontalLayout hatLayout = new HorizontalLayout();
+    protected HorizontalLayout menuLayout = new HorizontalLayout();
+
+    protected HorizontalLayout topicLayout = new HorizontalLayout();
+    protected FormLayout enterLayout = new FormLayout();
+
 
     protected List<Link> mainMenuLinks = new ArrayList<Link>();
     protected List<Link> links = new ArrayList<Link>();
@@ -46,16 +54,147 @@ public abstract class AbstractView extends VerticalLayout implements View {
         } else {
             System.out.println("отвалилось");
         }
-        root();
-        header();
-        mainMenu();
-        profile();
-        center();
+        formEnter();
+        formTopic();
+        formMenu();
+        formHat();
+        formProfile();
+        formCentral();
+        formBody();
+        formHead();
+        formRoot();
         setStyleName("basic-background");
     }
 
     protected void setRedirect(NavigationViews view) {
         UI.getCurrent().getNavigator().navigateTo(view.getPath());
+    }
+
+    protected void formRoot() {
+        removeAllComponents();
+        setSizeFull();
+
+        setId("root");
+        addComponent(headLayout);
+        addComponent(bodyLayout);
+        setExpandRatio(headLayout, 3);
+        setExpandRatio(bodyLayout, 5);
+    }
+
+    protected void formHead() {
+        headLayout.removeAllComponents();
+        headLayout.setSizeFull();
+        headLayout.setStyleName("upper");
+
+        headLayout.addComponent(hatLayout);
+        headLayout.addComponent(menuLayout);
+        headLayout.setExpandRatio(hatLayout, 2);
+        headLayout.setExpandRatio(menuLayout, 1);
+    }
+
+    protected void formBody() {
+        bodyLayout.removeAllComponents();
+        bodyLayout.setSizeFull();
+        bodyLayout.addComponent(centralLayout);
+        bodyLayout.addComponent(profileLayout);
+        bodyLayout.setExpandRatio(centralLayout, 3);
+        bodyLayout.setExpandRatio(profileLayout, 1);
+    }
+
+    protected void formCentral() {
+        centralLayout = getContentLayout();
+    }
+
+    protected void formProfile() {
+        profileLayout.removeAllComponents();
+        setSizeFull();
+
+        links.add(new Link("Страница пользователя", NavigationViews.USER, new Role[] { Role.ADMIN, Role.WORKER, Role.USER }));
+        links.add(new Link("Аптеки", NavigationViews.PHARMACY, new Role[] { Role.ADMIN, Role.WORKER, Role.USER }));
+        links.add(new Link("Работники", NavigationViews.WORKER, new Role[] { Role.ADMIN }));
+        links.add(new Link("История", NavigationViews.HISTORY, new Role[] { Role.ADMIN }));
+        links.add(new Link("Цены", NavigationViews.PRICE, new Role[] { Role.ADMIN, Role.WORKER, Role.USER }));
+        links.add(new Link("Продажа", NavigationViews.SALE, new Role[] { Role.ADMIN, Role.WORKER }));
+
+        for (final Link link: links) {
+            for (Role r: link.getRoles()) {
+                if (getUserRole() == r) {
+                    Button button = new NativeButton(link.getTitle());
+                    button.setSizeFull();
+                    button.addClickListener(new Button.ClickListener() {
+                        @Override
+                        public void buttonClick(Button.ClickEvent event) {
+                            setRedirect(link.getView());
+                        }
+                    });
+                    profileLayout.addComponent(button);
+                    break;
+                }
+            }
+        }
+    }
+
+    protected void formHat() {
+        hatLayout.removeAllComponents();
+        hatLayout.setSizeFull();
+
+        hatLayout.addComponent(topicLayout);
+        hatLayout.addComponent(enterLayout);
+        hatLayout.setExpandRatio(topicLayout, 2);
+        hatLayout.setExpandRatio(enterLayout, 1);
+    }
+
+    protected void formMenu() {
+        menuLayout.removeAllComponents();
+        menuLayout.setSizeFull();
+
+        mainMenuLinks.add(new Link("Главная", NavigationViews.MAIN, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
+        mainMenuLinks.add(new Link("Поиск", NavigationViews.SEARCH, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
+        mainMenuLinks.add(new Link("МНН", NavigationViews.INN, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
+        mainMenuLinks.add(new Link("Лекарства", NavigationViews.DRUG, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
+        mainMenuLinks.add(new Link("Производители", NavigationViews.FIRM, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
+
+        for (final Link link: mainMenuLinks) {
+            Button button = new NativeButton(link.getTitle());
+            button.setStyleName("button-style");
+            button.setSizeFull();
+            button.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    setRedirect(link.getView());
+                }
+            });
+            menuLayout.addComponent(button);
+        }
+    }
+
+    protected void formTopic() {
+        topicLayout.removeAllComponents();
+        topicLayout.setSizeFull();
+        topicLayout.setStyleName("header");
+
+        Image logo = new Image(null, new ThemeResource("images/8.png"));
+        Label title = new Label("Поиск препарата по его МНН");
+        topicLayout.addComponent(logo);
+        topicLayout.addComponent(title);
+    }
+
+    protected void formEnter() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Button logout = new Button("Выйти");
+            LogoutListener logoutListener = new LogoutListener();
+            logout.addClickListener(logoutListener);
+            enterLayout = new FormLayout();
+            enterLayout.addComponent(logout);
+        } else {
+            enterLayout = new LoginForm();
+        }
+
+        enterLayout.setSizeFull();
+        enterLayout.setStyleName("logger");
     }
 
     protected void setRedirect(NavigationViews view, Map<String, String> parameters) {
@@ -143,112 +282,6 @@ public abstract class AbstractView extends VerticalLayout implements View {
             }
         }
         return false;
-    }
-
-    private void root() {
-        removeAllComponents();
-        setSizeFull();
-
-        setId("root");
-        addComponent(headerLayout);
-        addComponent(mainMenuLayout);
-        addComponent(centerLayout);
-        setExpandRatio(headerLayout, 2);
-        setExpandRatio(mainMenuLayout, 1);
-        setExpandRatio(centerLayout, 7);
-    }
-
-    private void mainMenu() {
-        mainMenuLayout.removeAllComponents();
-        mainMenuLayout.setSizeFull();
-
-        mainMenuLinks.add(new Link("Главная", NavigationViews.MAIN, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
-        mainMenuLinks.add(new Link("Поиск", NavigationViews.SEARCH, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
-        mainMenuLinks.add(new Link("МНН", NavigationViews.INN, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
-        mainMenuLinks.add(new Link("Лекарства", NavigationViews.DRUG, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
-        mainMenuLinks.add(new Link("Производители", NavigationViews.FIRM, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
-
-        for (final Link link: mainMenuLinks) {
-            Button button = new NativeButton(link.getTitle());
-            button.setSizeFull();
-            button.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    setRedirect(link.getView());
-                }
-            });
-            mainMenuLayout.addComponent(button);
-        }
-    }
-
-    private void center() {
-        centerLayout.removeAllComponents();
-        centerLayout.setSizeFull();
-
-        Layout content = getContentLayout();
-        centerLayout.addComponent(content);
-        centerLayout.addComponent(profileLayout);
-        centerLayout.setExpandRatio(content, 6);
-        centerLayout.setExpandRatio(profileLayout, 2);
-    }
-
-    private void profile() {
-        profileLayout.removeAllComponents();
-        setSizeFull();
-
-        links.add(new Link("Страница пользователя", NavigationViews.USER, new Role[] { Role.ADMIN, Role.WORKER, Role.USER }));
-        links.add(new Link("Аптеки", NavigationViews.PHARMACY, new Role[] { Role.ADMIN, Role.WORKER, Role.USER }));
-        links.add(new Link("Работники", NavigationViews.WORKER, new Role[] { Role.ADMIN }));
-        links.add(new Link("История", NavigationViews.HISTORY, new Role[] { Role.ADMIN }));
-        links.add(new Link("Цены", NavigationViews.PRICE, new Role[] { Role.ADMIN, Role.WORKER, Role.USER }));
-        links.add(new Link("Продажа", NavigationViews.SALE, new Role[] { Role.ADMIN, Role.WORKER }));
-
-        for (final Link link: links) {
-            for (Role r: link.getRoles()) {
-                if (getUserRole() == r) {
-                    Button button = new NativeButton(link.getTitle());
-                    button.setSizeFull();
-                    button.addClickListener(new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            setRedirect(link.getView());
-                        }
-                    });
-                    profileLayout.addComponent(button);
-                    break;
-                }
-            }
-        }
-    }
-
-    private void header() {
-        headerLayout.removeAllComponents();
-        headerLayout.setSizeFull();
-
-        VerticalLayout titleLayout = new VerticalLayout();
-        titleLayout.addComponent(new Label("Поиск препарата по его МНН"));
-        titleLayout.setSizeFull();
-        titleLayout.setStyleName("header");
-
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-
-        if (authentication != null && authentication.isAuthenticated()) {
-            Button logout = new Button("Выйти");
-            LogoutListener logoutListener = new LogoutListener();
-            logout.addClickListener(logoutListener);
-            headerLayout.addComponent(titleLayout);
-            headerLayout.addComponent(logout);
-            headerLayout.setExpandRatio(titleLayout, 2);
-            headerLayout.setExpandRatio(logout, 1);
-        } else {
-            com.app.ui.form.LoginForm loginForm = new com.app.ui.form.LoginForm();
-            loginForm.setStyleName("logger");
-            headerLayout.addComponent(titleLayout);
-            headerLayout.addComponent(loginForm);
-            headerLayout.setExpandRatio(titleLayout, 2);
-            headerLayout.setExpandRatio(loginForm, 1);
-        }
     }
 
     protected int getTableSize(Collection list) {

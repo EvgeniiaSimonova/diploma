@@ -9,7 +9,7 @@
   }
 
   .header {
-    background-color: #579b35;
+    background-color: #039d28;
     -moz-box-shadow: 7px 8px 5px #000000;
     -webkit-box-shadow: 7px 8px 5px #000000;;
     box-shadow: 7px 8px 5px #000000;
@@ -20,10 +20,11 @@
     -moz-border-radius-bottomright: 90px;
     -webkit-border-bottom-right-radius: 90px;
     border-bottom-right-radius: 90px;
+    z-index: 1;
   }
 
   .logger {
-    background-color: #579b35;
+    background-color: #039d28;
     -moz-box-shadow: 7px 8px 5px #000000;
     -webkit-box-shadow: 7px 8px 5px #000000;;
     box-shadow: 7px 8px 5px #000000;
@@ -34,6 +35,37 @@
     -moz-border-radius-bottomleft: 90px;
     -webkit-border-bottom-left-radius: 90px;
     border-bottom-left-radius: 90px;
+    z-index: 1;
+  }
+
+  .upper {
+    background-color: #0d322e !important;
+    -moz-box-shadow: 7px 8px 5px #000000;
+    -webkit-box-shadow: 7px 8px 5px #000000;;
+    box-shadow: 7px 8px 5px #000000;
+
+    -moz-border-radius-bottomright: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .button-style {
+    color: #e6d9bd !important;
+    border: none;
+    background-color: #0d322e !important;
+    -moz-box-shadow: 7px 8px 5px #000000;
+    -webkit-box-shadow: 7px 8px 5px #000000;;
+    box-shadow: 7px 8px 5px #000000;
+
+    -moz-border-radius-bottomright: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
 
 }
