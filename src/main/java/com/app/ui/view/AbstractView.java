@@ -103,6 +103,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
     protected void formCentral() {
         centralLayout = getContentLayout();
+        centralLayout.setStyleName("center-style");
     }
 
     protected void formProfile() {
@@ -120,6 +121,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
             for (Role r: link.getRoles()) {
                 if (getUserRole() == r) {
                     Button button = new NativeButton(link.getTitle());
+                    button.setStyleName("right-button-style");
                     button.setSizeFull();
                     button.addClickListener(new Button.ClickListener() {
                         @Override
@@ -154,8 +156,10 @@ public abstract class AbstractView extends VerticalLayout implements View {
         mainMenuLinks.add(new Link("Лекарства", NavigationViews.DRUG, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
         mainMenuLinks.add(new Link("Производители", NavigationViews.FIRM, new Role[] { Role.ADMIN, Role.WORKER, Role.USER, Role.GUEST }));
 
+        int i = 1;
         for (final Link link: mainMenuLinks) {
             Button button = new NativeButton(link.getTitle());
+            button.setIcon(new ThemeResource("images/" + i + ".jpg"));
             button.setStyleName("button-style");
             button.setSizeFull();
             button.addClickListener(new Button.ClickListener() {
@@ -165,6 +169,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
                 }
             });
             menuLayout.addComponent(button);
+            i++;
         }
     }
 
@@ -175,8 +180,11 @@ public abstract class AbstractView extends VerticalLayout implements View {
 
         Image logo = new Image(null, new ThemeResource("images/8.png"));
         Label title = new Label("Поиск препарата по его МНН");
+        title.setStyleName("title-style");
         topicLayout.addComponent(logo);
         topicLayout.addComponent(title);
+        topicLayout.setExpandRatio(logo, 1);
+        topicLayout.setExpandRatio(title, 2);
     }
 
     protected void formEnter() {
