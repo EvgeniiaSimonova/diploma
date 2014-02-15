@@ -5862,13 +5862,12 @@ body .mytheme.v-app .v-app-loading {
 	margin-right: 0;
 }
 
-.mytheme .v-button-wrap {
-	background-color: #e6d9bd;
-}
-
 .mytheme .basic-background {
 	background-color: #e6d9bd;
 	background-image: none;
+	font-family: serif !important;
+	font-size: 14px !important;
+	color: #0d322e !important;
 }
 
 .mytheme .header {
@@ -5887,7 +5886,7 @@ body .mytheme.v-app .v-app-loading {
 }
 
 .mytheme .logger {
-	padding-left: 20px;
+	padding-left: 30px;
 	background-color: #039d28;
 	-moz-box-shadow: 7px 8px 5px #000000;
 	-webkit-box-shadow: 7px 8px 5px #000000;
@@ -5900,6 +5899,10 @@ body .mytheme.v-app .v-app-loading {
 	border-bottom-left-radius: 90px;
 	z-index: 10;
 	position: relative;
+}
+
+.mytheme .logger .v-button-wrap {
+	background-color: #e6d9bd;
 }
 
 .mytheme .upper {
@@ -5934,8 +5937,10 @@ body .mytheme.v-app .v-app-loading {
 }
 
 .mytheme .title-style {
-	color: #e6d9bd !important;
-	font-size: 30px !important;
+	color: #0d322e !important;
+	font-size: 36px !important;
+	text-shadow: 1px 1px 10px #000000;
+	font-weight: bold;
 	text-align: left;
 	vertical-align: bottom;
 	padding-top: 40px;
@@ -5957,8 +5962,23 @@ body .mytheme.v-app .v-app-loading {
 	-moz-border-radius-bottomleft: 10px;
 	-webkit-border-bottom-left-radius: 10px;
 	border-bottom-left-radius: 10px;
+	border-color: #e6d9bd;
+	font-size: 16px !important;
+	font-weight: bold;
+	color: #0d322e;
 }
 
 .mytheme .v-table-header-wrap {
-	background-color: #0d322e !important;
+	height: 25px !important;
+	font-size: 16px !important;
+	font-weight: bold;
+	background-color: #039d28 !important;
+}
+
+.mytheme .v-button-wrap {
+	background-color: #039d28;
+	font-size: 16px !important;
+	font-weight: bold;
+	color: #0d322e;
+	text-shadow: none;
 }

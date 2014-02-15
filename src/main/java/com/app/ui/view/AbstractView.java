@@ -97,7 +97,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
         bodyLayout.setSizeFull();
         bodyLayout.addComponent(centralLayout);
         bodyLayout.addComponent(profileLayout);
-        bodyLayout.setExpandRatio(centralLayout, 3);
+        bodyLayout.setExpandRatio(centralLayout, 5);
         bodyLayout.setExpandRatio(profileLayout, 1);
     }
 
@@ -159,7 +159,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
         int i = 1;
         for (final Link link: mainMenuLinks) {
             Button button = new NativeButton(link.getTitle());
-            button.setIcon(new ThemeResource("images/" + i + ".jpg"));
+            button.setIcon(new ThemeResource("images/" + i + ".png"));
             button.setStyleName("button-style");
             button.setSizeFull();
             button.addClickListener(new Button.ClickListener() {
